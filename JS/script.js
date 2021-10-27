@@ -89,7 +89,8 @@ let padding = 10;
 let tijolo_deslocamento_cima = 30;
 let tijolo_deslocamento_esquerda = 30;
 
-let cores = ["#0095DD", "#A52A2A", "#8A2BE2", "#00008B", "#006400", "#FF8C00", "#FF00FF", "#7CFC00", "#4B0082", "#40E0D0", "#FFFF00"];
+let cores = ["#0095DD", "#A52A2A", "#8A2BE2", "#00008B", "#006400", "#FF8C00", "#FF00FF", "#7CFC00", "#4B0082", "#40E0D0", "#FFFF00", "#000000", "#00FFFF",
+"#A52A2A", "#FA8072", "#FF6347", "#9ACD32", "#A0522D", "#9932CC"];
 
 let tijolos = [];
 for(let l = 0; l < linhas; l++){
@@ -148,6 +149,15 @@ function draw_pontos(){
     contexto_canvas.fillText("Pontos: " + pontos, 8, 20);
 }
 
+//vidas
+let vidas = 3;
+
+function draw_vidas(){
+    contexto_canvas.font = "16px Arial";
+    contexto_canvas.fillStyle = "#000000";
+    contexto_canvas.fillText("Vidas: " + vidas, canvas.width-65, 20);
+}
+
 // desenhando o canvas (game loop)
 function draw(){
     /*
@@ -160,6 +170,7 @@ function draw(){
     draw_ball();
     draw_jogador();
     draw_pontos();
+    draw_vidas();
     colisao_bloco();
 
     //colisão da bola nas paredes
@@ -174,9 +185,18 @@ function draw(){
             dy = -dy;
         }
         else{
-            clearInterval(game); //para a execução do jogo
-            alert("Game Over");
-            document.location.reload(); //atualizar a pagina
+            --vidas;
+            if(!vidas){
+                alert("Game Over");
+                document.location.reload();
+            }
+            else{
+                x = canvas.width/2;
+                y = canvas.height -30;
+                dx = 2;
+                dy = -2;
+                jogador_x = (canvas.width - jogador_largura)/2;
+            }
         }
     }
 
@@ -191,5 +211,7 @@ function draw(){
     x += dx;
     y += dy;
 
+    requestAnimationFrame(draw); //ira chamar a função draw recursivamente (game loop)
 }
-let game = setInterval(draw, 10); //vai executar a função draw() a cada 10ms
+
+draw()
