@@ -25,7 +25,7 @@ function draw_ball(){
     /* 
     A propriedade CanvasRenderingContext2D.fillStyle da API do Canvas 2D especifica a cor ou o estilo para usar regiões internas. O valor inicial é #000 (preto).
     */
-    contexto_canvas.fillStyle = "#0095DD";
+    contexto_canvas.fillStyle = "#808080";
 
     /*
     O método CanvasRenderingContext2D.fill() da API Canvas 2D preenche um dado path ou o path atual com o estilo atual de preenchimento 
@@ -75,7 +75,7 @@ function draw_jogador(){
     */
     contexto_canvas.rect(jogador_x, canvas.height - jogador_altura, jogador_largura, jogador_altura);
 
-    contexto_canvas.fillStyle = "#0095DD";
+    contexto_canvas.fillStyle = "#2F4F4F";
     contexto_canvas.fill();
     contexto_canvas.closePath();
 }
@@ -89,11 +89,13 @@ let padding = 10;
 let tijolo_deslocamento_cima = 30;
 let tijolo_deslocamento_esquerda = 30;
 
+let cores = ["#0095DD", "#A52A2A", "#8A2BE2", "#00008B", "#006400", "#FF8C00", "#FF00FF", "#7CFC00", "#4B0082", "#40E0D0", "#FFFF00"];
+
 let tijolos = [];
 for(let l = 0; l < linhas; l++){
     tijolos[l] = [];
     for(let c = 0; c < colunas; c++){
-        tijolos[l][c] = {x: 0, y: 0, status: 1};
+        tijolos[l][c] = {x: 0, y: 0, status: 1, cor: cores[Math.floor(Math.random() * cores.length)]};
     }
 }
 
@@ -109,7 +111,7 @@ function draw_tijolos(){
 
                 contexto_canvas.beginPath();
                 contexto_canvas.rect(tijolo_x,tijolo_y, tijolo_largura, tijolo_altura);
-                contexto_canvas.fillStyle = "#0095DD";
+                contexto_canvas.fillStyle = tijolos[l][c].cor;
                 contexto_canvas.fill();
                 contexto_canvas.closePath();
             }
@@ -142,7 +144,7 @@ function colisao_bloco(){
 
 function draw_pontos(){
     contexto_canvas.font = "16px Arial";
-    contexto_canvas.fillStyle = "#0095DD";
+    contexto_canvas.fillStyle = "#000000";
     contexto_canvas.fillText("Pontos: " + pontos, 8, 20);
 }
 
